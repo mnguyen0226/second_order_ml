@@ -1,19 +1,16 @@
 import torch
 import numpy as np
-
 from torchvision import datasets
 import torchvision.transforms as transforms
 from torch.utils.data.sampler import SubsetRandomSampler
-
 import torch.nn as nn
 import torch.nn.functional as F
-
 import torch.optim as optim
-
 import matplotlib.pyplot as plt
-
 from network import ConvCIFAR
 from ada_hessian import AdaHessian
+
+# source: https://github.com/simoninithomas/cifar-10-classifier-pytorch
 
 # Check if CUDA is available
 train_on_gpu = torch.cuda.is_available()
