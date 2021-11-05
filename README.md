@@ -1,1 +1,1 @@
-# soo_non_convex_ml
+# Effectiveness of Second-Order Optimization for Non-convex Machine Learning

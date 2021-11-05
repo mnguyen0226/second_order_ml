@@ -13,6 +13,16 @@ from ada_hessian import AdaHessian
 
 
 def train(args, model, device, train_loader, optimizer, epoch):
+    """ 
+    Trains model with different hyperparameters on training MNIST dataset
+    Arguments: 
+        args: place-holder for arguments parsers in main()
+        model: ConvMNIST
+        device: cpu or gpu
+        train_loader: training MNIST data processed by DataLoader()
+        optimizer: first or second order optimizer
+        epoch: number of epoch for training
+    """
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
         data, target = data.to(device), target.to(device)
@@ -37,6 +47,13 @@ def train(args, model, device, train_loader, optimizer, epoch):
 
 
 def test(model, device, test_loader):
+    """
+    Tests trained model on testing MNIST dataset
+    Arguments:
+        model: ConvMNIST
+        device: cpu or gpu
+        test_loader: testing MNIST data processed by DataLoader()
+    """
     model.eval()
     test_loss = 0
     correct = 0
@@ -158,7 +175,7 @@ def main():
     # optimizer = optim.AdamW(model.parameters(), lr=1e-2)
     # optimizer = optim.RMSprop(model.parameters(), lr=1e-2)
     # optimizer = optim.NAdam(model.parameters(), lr=1e-2)
-    
+
     # optimizer = AdaHessian(model.parameters())
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
