@@ -93,6 +93,14 @@ criterion = nn.CrossEntropyLoss()
 
 # Specify the optimizer
 # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+
+# optimizer = optim.Adadelta(model.parameters(), lr=1e-2)
+# optimizer = optim.Adagrad(model.parameters(), lr=1e-2)
+# optimizer = optim.Adamax(model.parameters(), lr=1e-2)
+# optimizer = optim.AdamW(model.parameters(), lr=1e-2)
+# optimizer = optim.RMSprop(model.parameters(), lr=1e-2)
+# optimizer = optim.NAdam(model.parameters(), lr=1e-2)
+
 optimizer = AdaHessian(model.parameters())
 
 # number of epochs to train the model

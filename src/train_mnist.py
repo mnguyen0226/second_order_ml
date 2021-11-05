@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.optim import optimizer
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from network import ConvMNIST
@@ -149,8 +150,15 @@ def main():
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
     model = ConvMNIST().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=1e-2)
-    # optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
+    optimizer = optim.SGD(model.parameters(), lr=1e-2) 
+
+    # optimizer = optim.Adadelta(model.parameters(), lr=1e-2)
+    # optimizer = optim.Adagrad(model.parameters(), lr=1e-2)
+    # optimizer = optim.Adamax(model.parameters(), lr=1e-2)
+    # optimizer = optim.AdamW(model.parameters(), lr=1e-2)
+    # optimizer = optim.RMSprop(model.parameters(), lr=1e-2)
+    # optimizer = optim.NAdam(model.parameters(), lr=1e-2)
+    
     # optimizer = AdaHessian(model.parameters())
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
