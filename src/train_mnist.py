@@ -13,9 +13,9 @@ from ada_hessian import AdaHessian
 
 
 def train(args, model, device, train_loader, optimizer, epoch):
-    """ 
+    """
     Trains model with different hyperparameters on training MNIST dataset
-    Arguments: 
+    Arguments:
         args: place-holder for arguments parsers in main()
         model: ConvMNIST
         device: cpu or gpu
@@ -167,7 +167,7 @@ def main():
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
     model = ConvMNIST().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=1e-2) 
+    optimizer = optim.SGD(model.parameters(), lr=1e-2)
 
     # optimizer = optim.Adadelta(model.parameters(), lr=1e-2)
     # optimizer = optim.Adagrad(model.parameters(), lr=1e-2)
