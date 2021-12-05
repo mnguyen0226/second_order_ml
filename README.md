@@ -1,9 +1,9 @@
-# Effectiveness of Second-Order Optimization for Non-convex Machine Learning
+# Effectiveness of Second-Order Optimization for Non-convex Machine Learning - ECE 5554
 
 ## About
 Classical optimization algorithms have become unfavorable in the world of large models and big data. Over the past decade, first-order optimization methods such as SGD and Adam have dominated deep learning literature. Despite proven theoretical properties, second-order optimization techniques are far less prevalent and unconventional in modern deep learning due to their prohibitive computation. We bring awareness to these second-order techniques by highlighting their advantages, such as robustness to hyperparameters, finite step convergence, escaping saddle points, and resilience to adversarial effects.
 
-![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/Optimizers%20Performance%20Comparison%20on%20MNIST%20Datset.png)
+![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/first_order_vs_second_order.png)
 
 ## Reproducibility
 
