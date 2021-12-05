@@ -8,8 +8,16 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from network import ConvMNIST
 from ada_hessian import AdaHessian
+import time
 
 # source: https://github.com/pytorch/examples/blob/master/mnist/main.py
+
+# optimizer_type = "AdaHessian"
+optimizer_type = "SGD"
+# optimizer_type = "Adam"
+# optimizer_type = "Adagrad"
+# optimizer_type = "AdamW"
+# optimizer_type = "RMSProp"
 
 
 def train(args, model, device, train_loader, optimizer, epoch):
@@ -25,21 +33,26 @@ def train(args, model, device, train_loader, optimizer, epoch):
     """
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
+        start = time.time()
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(data)
         loss = F.nll_loss(output, target)
-        loss.backward()
-        # loss.backward(create_graph=True)
+        if optimizer_type == "AdaHessian":
+            loss.backward(create_graph=True)
+        else:
+            loss.backward()
+
         optimizer.step()
         if batch_idx % args.log_interval == 0:
             print(
-                "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
+                "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tIteration cost: {:.3f}".format(
                     epoch,
                     batch_idx * len(data),
                     len(train_loader.dataset),
                     100.0 * batch_idx / len(train_loader),
                     loss.item(),
+                    time.time() - start,
                 )
             )
             if args.dry_run:
@@ -103,7 +116,7 @@ def main():
         type=int,
         default=5,
         metavar="N",
-        help="number of epochs to train (default: 14)",
+        help="number of epochs to train (default: 5)",
     )
     parser.add_argument(
         "--lr",
@@ -167,22 +180,28 @@ def main():
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
     model = ConvMNIST().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=1e-2)
 
-    # optimizer = optim.Adadelta(model.parameters(), lr=1e-2)
-    # optimizer = optim.Adagrad(model.parameters(), lr=1e-2)
-    # optimizer = optim.Adamax(model.parameters(), lr=1e-2)
-    # optimizer = optim.AdamW(model.parameters(), lr=1e-2)
-    # optimizer = optim.RMSprop(model.parameters(), lr=1e-2)
-    # optimizer = optim.NAdam(model.parameters(), lr=1e-2)
+    # Specify the optimizer
+    if optimizer_type == "AdaHessian":
+        optimizer = AdaHessian(model.parameters())
+    elif optimizer_type == "SGD":
+        optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
+    elif optimizer_type == "Adam":
+        optimizer = optim.Adam(model.parameters(), lr=0.1)
+    elif optimizer_type == "Adagrad":
+        optimizer = optim.Adagrad(model.parameters(), lr=0.1)
+    elif optimizer_type == "AdamW":
+        optimizer = optim.AdamW(model.parameters(), lr=0.001)
+    elif optimizer_type == "RMSProp":
+        optimizer = optim.RMSprop(model.parameters(), lr=0.001)
+    else:
+        raise TypeError(f"invalid optimizer type: {optimizer_type}")
 
-    # optimizer = AdaHessian(model.parameters())
-
-    scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
+    # scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
         train(args, model, device, train_loader, optimizer, epoch)
         test(model, device, test_loader)
-        scheduler.step()
+        # scheduler.step()
 
     if args.save_model:
         torch.save(model.state_dict(), "../model/mnist_cnn.pt")
