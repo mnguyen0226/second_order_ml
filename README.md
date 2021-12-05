@@ -3,6 +3,8 @@
 ## About
 Classical optimization algorithms have become unfavorable in the world of large models and big data. Over the past decade, first-order optimization methods such as SGD and Adam have dominated deep learning literature. Despite proven theoretical properties, second-order optimization techniques are far less prevalent and unconventional in modern deep learning due to their prohibitive computation. We bring awareness to these second-order techniques by highlighting their advantages, such as robustness to hyperparameters, finite step convergence, escaping saddle points, and resilience to adversarial effects.
 
+![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/Optimizers%20Performance%20Comparison%20on%20MNIST%20Datset.png)
+
 ## Reproducibility
 
 
@@ -17,13 +19,9 @@ Classical optimization algorithms have become unfavorable in the world of large 
 ![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/Optimizers%20Robustness%20to%20Learning%20Rate%20Comparison.png)
 
 
-
-
-
-
 ## Paper
 - [Proposal](https://github.com/mnguyen0226/soo_non_convex_ml/tree/main/docs/Proposal)
-- Final Paper.
+- Final Paper
 
 ## Citation
 - [1] Dami Choi et al. On Empirical Comparison of Optimizers of Deep Learning. 2020. URL: https://arxiv.org/pdf/1910.05446.pdf.
