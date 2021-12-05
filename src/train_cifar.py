@@ -9,6 +9,15 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 from network import ConvCIFAR
 from ada_hessian import AdaHessian
+import time
+
+# list of all optimizers
+# optimizer_type = "AdaHessian"
+# optimizer_type = "SGD"
+# optimizer_type = "Adam"
+# optimizer_type = "Adagrad"
+# optimizer_type = "AdamW"
+optimizer_type = "RMSProp"
 
 # source: https://github.com/simoninithomas/cifar-10-classifier-pytorch
 
@@ -92,16 +101,20 @@ if train_on_gpu:
 criterion = nn.CrossEntropyLoss()
 
 # Specify the optimizer
-# optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-
-# optimizer = optim.Adadelta(model.parameters(), lr=1e-2)
-# optimizer = optim.Adagrad(model.parameters(), lr=1e-2)
-# optimizer = optim.Adamax(model.parameters(), lr=1e-2)
-# optimizer = optim.AdamW(model.parameters(), lr=1e-2)
-# optimizer = optim.RMSprop(model.parameters(), lr=1e-2)
-# optimizer = optim.NAdam(model.parameters(), lr=1e-2)
-
-optimizer = AdaHessian(model.parameters())
+if optimizer_type == "AdaHessian":
+    optimizer = AdaHessian(model.parameters())
+elif optimizer_type == "SGD":
+    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+elif optimizer_type == "Adam":
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+elif optimizer_type == "Adagrad":
+    optimizer = optim.Adagrad(model.parameters(), lr=0.01)
+elif optimizer_type == "AdamW":
+    optimizer = optim.AdamW(model.parameters(), lr=0.001)
+elif optimizer_type == "RMSProp":
+    optimizer = optim.RMSprop(model.parameters(), lr=0.01)
+else:
+    raise TypeError(f"invalid optimizer type: {optimizer_type}")
 
 # number of epochs to train the model
 n_epochs = 5
@@ -116,8 +129,10 @@ for epoch in range(1, n_epochs + 1):
 
     # train the model #
     model.train()
+    start = time.time()
     for data, target in train_loader:
         # move tensors to GPU if CUDA is available
+
         if train_on_gpu:
             data, target = data.cuda(), target.cuda()
         # clear the gradients of all optimized variables
@@ -127,12 +142,15 @@ for epoch in range(1, n_epochs + 1):
         # calculate the batch loss
         loss = criterion(output, target)
         # backward pass: compute gradient of the loss with respect to model parameters
-        # loss.backward()
-        loss.backward(create_graph=True)
+        if optimizer_type == "AdaHessian":
+            loss.backward(create_graph=True)
+        else:
+            loss.backward()
         # perform a single optimization step (parameter update)
         optimizer.step()
         # update training loss
         train_loss += loss.item() * data.size(0)
+    print(f"Loss: {train_loss}\tIteration Cost: {round(time.time() - start, 3)}")
 
     # validate the model #
     model.eval()
@@ -168,64 +186,64 @@ for epoch in range(1, n_epochs + 1):
         torch.save(model.state_dict(), "../model/cnn_cifar.pt")
         valid_loss_min = valid_loss
 
-# evaluate model
-model.load_state_dict(torch.load("../model/cnn_cifar.pt"))
+    # evaluate model
+    model.load_state_dict(torch.load("../model/cnn_cifar.pt"))
 
-# track test loss
-test_loss = 0.0
-class_correct = list(0.0 for i in range(10))
-class_total = list(0.0 for i in range(10))
+    # track test loss
+    test_loss = 0.0
+    class_correct = list(0.0 for i in range(10))
+    class_total = list(0.0 for i in range(10))
 
-model.eval()
-# iterate over test data
-for data, target in test_loader:
-    # move tensors to GPU if CUDA is available
-    if train_on_gpu:
-        data, target = data.cuda(), target.cuda()
-    # forward pass: compute predicted outputs by passing inputs to the model
-    output = model(data)
-    # calculate the batch loss
-    loss = criterion(output, target)
-    # update test loss
-    test_loss += loss.item() * data.size(0)
-    # convert output probabilities to predicted class
-    _, pred = torch.max(output, 1)
-    # compare predictions to true label
-    correct_tensor = pred.eq(target.data.view_as(pred))
-    correct = (
-        np.squeeze(correct_tensor.numpy())
-        if not train_on_gpu
-        else np.squeeze(correct_tensor.cpu().numpy())
-    )
-    # calculate test accuracy for each object class
-    for i in range(batch_size):
-        label = target.data[i]
-        class_correct[label] += correct[i].item()
-        class_total[label] += 1
-
-# average test loss
-test_loss = test_loss / len(test_loader.dataset)
-print("Test Loss: {:.6f}\n".format(test_loss))
-
-for i in range(10):
-    if class_total[i] > 0:
-        print(
-            "Test Accuracy of %5s: %2d%% (%2d/%2d)"
-            % (
-                classes[i],
-                100 * class_correct[i] / class_total[i],
-                np.sum(class_correct[i]),
-                np.sum(class_total[i]),
-            )
+    model.eval()
+    # iterate over test data
+    for data, target in test_loader:
+        # move tensors to GPU if CUDA is available
+        if train_on_gpu:
+            data, target = data.cuda(), target.cuda()
+        # forward pass: compute predicted outputs by passing inputs to the model
+        output = model(data)
+        # calculate the batch loss
+        loss = criterion(output, target)
+        # update test loss
+        test_loss += loss.item() * data.size(0)
+        # convert output probabilities to predicted class
+        _, pred = torch.max(output, 1)
+        # compare predictions to true label
+        correct_tensor = pred.eq(target.data.view_as(pred))
+        correct = (
+            np.squeeze(correct_tensor.numpy())
+            if not train_on_gpu
+            else np.squeeze(correct_tensor.cpu().numpy())
         )
-    else:
-        print("Test Accuracy of %5s: N/A (no training examples)" % (classes[i]))
+        # calculate test accuracy for each object class
+        for i in range(batch_size):
+            label = target.data[i]
+            class_correct[label] += correct[i].item()
+            class_total[label] += 1
 
-print(
-    "\nTest Accuracy (Overall): %2d%% (%2d/%2d)"
-    % (
-        100.0 * np.sum(class_correct) / np.sum(class_total),
-        np.sum(class_correct),
-        np.sum(class_total),
+    # average test loss
+    test_loss = test_loss / len(test_loader.dataset)
+    print("Test Loss: {:.6f}\n".format(test_loss))
+
+    for i in range(10):
+        if class_total[i] > 0:
+            print(
+                "Test Accuracy of %5s: %2d%% (%2d/%2d)"
+                % (
+                    classes[i],
+                    100 * class_correct[i] / class_total[i],
+                    np.sum(class_correct[i]),
+                    np.sum(class_total[i]),
+                )
+            )
+        else:
+            print("Test Accuracy of %5s: N/A (no training examples)" % (classes[i]))
+
+    print(
+        "\nTest Accuracy (Overall): %2d%% (%2d/%2d)"
+        % (
+            100.0 * np.sum(class_correct) / np.sum(class_total),
+            np.sum(class_correct),
+            np.sum(class_total),
+        )
     )
-)
