@@ -7,10 +7,22 @@ Classical optimization algorithms have become unfavorable in the world of large 
 
 
 ## Results
+- Optimizers Performance Comparison on MNIST Dataset:
+![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/Optimizers%20Performance%20Comparison%20on%20MNIST%20Datset.png)
+
+- Optimizers Performance Comparison on CIFAR-10 Dataset:
+![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/Optimizers%20Performance%20Comparison%20on%20CIFAR-10%20Dataset.png)
+
+- Optimizers Robustness to Learning Rate Comparison:
+![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/Optimizers%20Robustness%20to%20Learning%20Rate%20Comparison.png)
+
+
+
+
 
 
 ## Paper
-- Proposal.
+- [Proposal](https://github.com/mnguyen0226/soo_non_convex_ml/tree/main/docs/Proposal)
 - Final Paper.
 
 ## Citation
