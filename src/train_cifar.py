@@ -12,14 +12,13 @@ from ada_hessian import AdaHessian
 import time
 
 # list of all optimizers
-# optimizer_type = "AdaHessian"
+optimizer_type = "AdaHessian"
 # optimizer_type = "SGD"
 # optimizer_type = "Adam"
 # optimizer_type = "Adagrad"
 # optimizer_type = "AdamW"
-optimizer_type = "RMSProp"
+# optimizer_type = "RMSProp"
 
-# source: https://github.com/simoninithomas/cifar-10-classifier-pytorch
 
 # Check if CUDA is available
 train_on_gpu = torch.cuda.is_available()
