@@ -7,6 +7,28 @@ Classical optimization algorithms have become unfavorable in the world of large 
 
 ## Reproducibility
 
+Fork the project and enter the directory: `$cd soo_non_convex_ml`
+
+Install necessary packages: `$pip install requirements.txt -r`
+Make sure your Python version ≥ 3.7
+
+`$cd src`
+To run experiments on CIFAR-10: `python train_cifar.py`
+
+To run experiments on MNIST: `python train_mnist.py`
+
+To specify type of optimizer:
+
+```python
+# comment out optimizer of choice
+optimizer_type = "AdaHessian"
+# optimizer_type = "SGD"
+# optimizer_type = "Adam"
+# optimizer_type = "Adagrad"
+# optimizer_type = "AdamW"
+# optimizer_type = "RMSProp"
+
+```
 
 ## Results
 - Optimizers Performance Comparison on MNIST Dataset:
