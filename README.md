@@ -24,7 +24,7 @@ Classical optimization algorithms have become unfavorable in the world of large 
 - Final Paper
 
 ## Citation
-- [1] Naman Agarwal, Brian Bullins, and Elad Hazan. “Second-order stochastic optimization inlinear time”. In:stat1050 (2016), p. 15.\
+- [1] Naman Agarwal, Brian Bullins, and Elad Hazan. “Second-order stochastic optimization inlinear time”. In:stat1050 (2016), p. 15.
 - [2] Naman Agarwal et al. “Finding approximate local minima faster than gradient descent”. In:Proceedings of the 49th Annual ACM SIGACT Symposium on Theory of Computing. 2017,pp. 1195–1199.
 - [3] Shun-Ichi Amari. “Natural gradient works efficiently in learning”. In:Neural computation10.2 (1998), pp. 251–276.
 - [4] Shun-ichi Amari et al. “When Does Preconditioning Help or Hurt Generalization?” In:arXivpreprint arXiv:2006.10732(2020).
@@ -51,4 +51,4 @@ Classical optimization algorithms have become unfavorable in the world of large 
 - [25] Peng Xu, Roosta Fred, and W. Mahoney Michael. “Newton-type methods for non-convexoptimization under inexact hessian information.” In:Mathematical Programming 184.1(2020).
 - [26] Peng Xu, Roosta Fred, and W. Mahoney Michael. “Second-order optimization for non-convexmachine learning: An empirical study”. In:Society for Industrial and Applied Mathematics(SIAM)(2020).
 - [27] Zhewei Yao et al.ADAHESSIAN: An Adaptive Second Order Optimizer for Machine Learning.2021.URL:https://arxiv.org/abs/2006.00719.
-- [28] Chengxi Ye et al.On the Importance of Consistency in Training Deep Neural Networks.2017.URL:https://www.researchgate.net/publication/318868196_On_the_Importance_of_Consistency_in_Training_Deep_Neural_Networks.Page 10 of 10
+- [28] Chengxi Ye et al.On the Importance of Consistency in Training Deep Neural Networks.2017.URL:https://www.researchgate.net/publication/318868196_On_the_Importance_of_Consistency_in_Training_Deep_Neural_Networks.
