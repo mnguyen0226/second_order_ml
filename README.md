@@ -21,7 +21,7 @@ Classical optimization algorithms have become unfavorable in the world of large 
 
 ## Paper
 - [Proposal](https://github.com/mnguyen0226/soo_non_convex_ml/tree/main/docs/Proposal)
-- [Final Paper]
+- [Final Paper](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/Computer_Vision_Final_Project.pdf)
 
 ## Citation
 - [1] Naman Agarwal, Brian Bullins, and Elad Hazan. “Second-order stochastic optimization inlinear time”. In:stat1050 (2016), p. 15.
