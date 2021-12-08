@@ -5,19 +5,14 @@ Classical optimization algorithms have become unfavorable in the world of large 
 
 ![Alt text](https://github.com/mnguyen0226/soo_non_convex_ml/blob/main/docs/results/first_order_vs_second_order.png)
 
-## Reproducibility
-
-Fork the project and enter the directory: `$cd soo_non_convex_ml`
-
-Install necessary packages: `$pip install requirements.txt -r`
-Make sure your Python version ≥ 3.7
-
-`$cd src`
-To run experiments on CIFAR-10: `python train_cifar.py`
-
-To run experiments on MNIST: `python train_mnist.py`
-
-To specify type of optimizer:
+## Reproducibility=
+- Fork the project and enter the directory: `$cd soo_non_convex_ml`
+- Install necessary packages: `$pip install requirements.txt -r`
+- Make sure your Python version ≥ 3.7
+- `$cd src`
+- To run experiments on CIFAR-10: `python train_cifar.py`
+- To run experiments on MNIST: `python train_mnist.py`
+- To specify type of optimizer:
 
 ```python
 # comment out optimizer of choice
